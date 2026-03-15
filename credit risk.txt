@@ -1,0 +1,699 @@
+
+R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[R.app GUI 1.82 (8556) aarch64-apple-darwin20]
+
+[Workspace restored from /Users/elif/.RData]
+[History restored from /Users/elif/.Rapp.history]
+
+> install.packages("caret", dependencies = TRUE)
+Installing package into ‘/Users/elif/Library/R/arm64/4.5/library’
+(as ‘lib’ is unspecified)
+--- Please select a CRAN mirror for use in this session ---
+trying URL 'https://mirror-hk.koddos.net/CRAN/bin/macosx/big-sur-arm64/contrib/4.5/caret_7.0-1.tgz'
+Content type 'application/x-gzip' length 3602188 bytes (3.4 MB)
+==================================================
+downloaded 3.4 MB
+
+
+The downloaded binary packages are in
+	/var/folders/6b/10xqhh152h7b8wk202vsvxz40000gp/T//Rtmpm1pz4k/downloaded_packages
+> library(caret)
+Loading required package: ggplot2
+Loading required package: lattice
+> data("GermanCredit", package = "caret")
+> dim(GermanCredit)
+[1] 1000   62
+> head(GermanCredit)
+  Duration Amount InstallmentRatePercentage ResidenceDuration Age
+1        6   1169                         4                 4  67
+2       48   5951                         2                 2  22
+3       12   2096                         2                 3  49
+4       42   7882                         2                 4  45
+5       24   4870                         3                 4  53
+6       36   9055                         2                 4  35
+  NumberExistingCredits NumberPeopleMaintenance Telephone ForeignWorker
+1                     2                       1         0             1
+2                     1                       1         1             1
+3                     1                       2         1             1
+4                     1                       2         1             1
+5                     2                       2         1             1
+6                     1                       2         0             1
+  Class CheckingAccountStatus.lt.0 CheckingAccountStatus.0.to.200
+1  Good                          1                              0
+2   Bad                          0                              1
+3  Good                          0                              0
+4  Good                          1                              0
+5   Bad                          1                              0
+6  Good                          0                              0
+  CheckingAccountStatus.gt.200 CheckingAccountStatus.none
+1                            0                          0
+2                            0                          0
+3                            0                          1
+4                            0                          0
+5                            0                          0
+6                            0                          1
+  CreditHistory.NoCredit.AllPaid CreditHistory.ThisBank.AllPaid
+1                              0                              0
+2                              0                              0
+3                              0                              0
+4                              0                              0
+5                              0                              0
+6                              0                              0
+  CreditHistory.PaidDuly CreditHistory.Delay CreditHistory.Critical
+1                      0                   0                      1
+2                      1                   0                      0
+3                      0                   0                      1
+4                      1                   0                      0
+5                      0                   1                      0
+6                      1                   0                      0
+  Purpose.NewCar Purpose.UsedCar Purpose.Furniture.Equipment
+1              0               0                           0
+2              0               0                           0
+3              0               0                           0
+4              0               0                           1
+5              1               0                           0
+6              0               0                           0
+  Purpose.Radio.Television Purpose.DomesticAppliance Purpose.Repairs
+1                        1                         0               0
+2                        1                         0               0
+3                        0                         0               0
+4                        0                         0               0
+5                        0                         0               0
+6                        0                         0               0
+  Purpose.Education Purpose.Vacation Purpose.Retraining Purpose.Business
+1                 0                0                  0                0
+2                 0                0                  0                0
+3                 1                0                  0                0
+4                 0                0                  0                0
+5                 0                0                  0                0
+6                 1                0                  0                0
+  Purpose.Other SavingsAccountBonds.lt.100 SavingsAccountBonds.100.to.500
+1             0                          0                              0
+2             0                          1                              0
+3             0                          1                              0
+4             0                          1                              0
+5             0                          1                              0
+6             0                          0                              0
+  SavingsAccountBonds.500.to.1000 SavingsAccountBonds.gt.1000
+1                               0                           0
+2                               0                           0
+3                               0                           0
+4                               0                           0
+5                               0                           0
+6                               0                           0
+  SavingsAccountBonds.Unknown EmploymentDuration.lt.1
+1                           1                       0
+2                           0                       0
+3                           0                       0
+4                           0                       0
+5                           0                       0
+6                           1                       0
+  EmploymentDuration.1.to.4 EmploymentDuration.4.to.7
+1                         0                         0
+2                         1                         0
+3                         0                         1
+4                         0                         1
+5                         1                         0
+6                         1                         0
+  EmploymentDuration.gt.7 EmploymentDuration.Unemployed
+1                       1                             0
+2                       0                             0
+3                       0                             0
+4                       0                             0
+5                       0                             0
+6                       0                             0
+  Personal.Male.Divorced.Seperated Personal.Female.NotSingle
+1                                0                         0
+2                                0                         1
+3                                0                         0
+4                                0                         0
+5                                0                         0
+6                                0                         0
+  Personal.Male.Single Personal.Male.Married.Widowed
+1                    1                             0
+2                    0                             0
+3                    1                             0
+4                    1                             0
+5                    1                             0
+6                    1                             0
+  Personal.Female.Single OtherDebtorsGuarantors.None
+1                      0                           1
+2                      0                           1
+3                      0                           1
+4                      0                           0
+5                      0                           1
+6                      0                           1
+  OtherDebtorsGuarantors.CoApplicant OtherDebtorsGuarantors.Guarantor
+1                                  0                                0
+2                                  0                                0
+3                                  0                                0
+4                                  0                                1
+5                                  0                                0
+6                                  0                                0
+  Property.RealEstate Property.Insurance Property.CarOther
+1                   1                  0                 0
+2                   1                  0                 0
+3                   1                  0                 0
+4                   0                  1                 0
+5                   0                  0                 0
+6                   0                  0                 0
+  Property.Unknown OtherInstallmentPlans.Bank
+1                0                          0
+2                0                          0
+3                0                          0
+4                0                          0
+5                1                          0
+6                1                          0
+  OtherInstallmentPlans.Stores OtherInstallmentPlans.None Housing.Rent
+1                            0                          1            0
+2                            0                          1            0
+3                            0                          1            0
+4                            0                          1            0
+5                            0                          1            0
+6                            0                          1            0
+  Housing.Own Housing.ForFree Job.UnemployedUnskilled
+1           1               0                       0
+2           1               0                       0
+3           1               0                       0
+4           0               1                       0
+5           0               1                       0
+6           0               1                       0
+  Job.UnskilledResident Job.SkilledEmployee
+1                     0                   1
+2                     0                   1
+3                     1                   0
+4                     0                   1
+5                     0                   1
+6                     1                   0
+  Job.Management.SelfEmp.HighlyQualified
+1                                      0
+2                                      0
+3                                      0
+4                                      0
+5                                      0
+6                                      0
+> install.packages("randomForest")
+Installing package into ‘/Users/elif/Library/R/arm64/4.5/library’
+(as ‘lib’ is unspecified)
+trying URL 'https://mirror-hk.koddos.net/CRAN/bin/macosx/big-sur-arm64/contrib/4.5/randomForest_4.7-1.2.tgz'
+Content type 'application/x-gzip' length 260492 bytes (254 KB)
+==================================================
+downloaded 254 KB
+
+
+The downloaded binary packages are in
+	/var/folders/6b/10xqhh152h7b8wk202vsvxz40000gp/T//Rtmpm1pz4k/downloaded_packages
+> library(randomForest)
+randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+> 
+> install.packages("rpart.plot")
+Installing package into ‘/Users/elif/Library/R/arm64/4.5/library’
+(as ‘lib’ is unspecified)
+trying URL 'https://mirror-hk.koddos.net/CRAN/bin/macosx/big-sur-arm64/contrib/4.5/rpart.plot_3.1.4.tgz'
+Content type 'application/x-gzip' length 1005938 bytes (982 KB)
+==================================================
+downloaded 982 KB
+
+
+The downloaded binary packages are in
+	/var/folders/6b/10xqhh152h7b8wk202vsvxz40000gp/T//Rtmpm1pz4k/downloaded_packages
+> library(rpart.plot)
+Loading required package: rpart
+> 
+> install.packages("pROC")
+Installing package into ‘/Users/elif/Library/R/arm64/4.5/library’
+(as ‘lib’ is unspecified)
+trying URL 'https://mirror-hk.koddos.net/CRAN/bin/macosx/big-sur-arm64/contrib/4.5/pROC_1.19.0.1.tgz'
+Content type 'application/x-gzip' length 1085571 bytes (1.0 MB)
+==================================================
+downloaded 1.0 MB
+
+
+The downloaded binary packages are in
+	/var/folders/6b/10xqhh152h7b8wk202vsvxz40000gp/T//Rtmpm1pz4k/downloaded_packages
+> library(pROC)
+Type 'citation("pROC")' for a citation.
+
+Attaching package: ‘pROC’
+
+The following objects are masked from ‘package:stats’:
+
+    cov, smooth, var
+
+> rm(list = ls())
+> set.seed(123)
+> 
+> library(caret)
+> library(ggplot2)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:randomForest’:
+
+    combine
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(randomForest)
+> library(rpart)
+> library(rpart.plot)
+> library(pROC)
+> library(corrplot)
+corrplot 0.95 loaded
+> 
+> data("GermanCredit", package = "caret")
+> credit_data <- GermanCredit
+> 
+> credit_data$Class <- factor(credit_data$Class, levels = c("Bad","Good"))
+> 
+> ggplot(credit_data, aes(Class, fill=Class)) + geom_bar()
+> ggplot(credit_data, aes(Age)) + geom_histogram(bins=30)
+> ggplot(credit_data, aes(Amount)) + geom_histogram(bins=30)
+> ggplot(credit_data, aes(Duration)) + geom_histogram(bins=30)
+> ggplot(credit_data, aes(Class, Age, fill=Class)) + geom_boxplot()
+> ggplot(credit_data, aes(Class, Amount, fill=Class)) + geom_boxplot()
+> 
+> num <- credit_data[,sapply(credit_data,is.numeric)]
+> corrplot(cor(num),method="color",type="upper")
+Warning message:
+In cor(num) : the standard deviation is zero
+> 
+> train_index <- createDataPartition(credit_data$Class,p=0.8,list=FALSE)
+> train_data <- credit_data[train_index,]
+> test_data <- credit_data[-train_index,]
+> 
+> dummy <- dummyVars(Class~.,data=train_data)
+> 
+> train_x <- predict(dummy,newdata=train_data)
+Warning message:
+In model.frame.default(Terms, newdata, na.action = na.action, xlev = object$lvls) :
+  variable 'Class' is not a factor
+> test_x  <- predict(dummy,newdata=test_data)
+Warning message:
+In model.frame.default(Terms, newdata, na.action = na.action, xlev = object$lvls) :
+  variable 'Class' is not a factor
+> 
+> train_x <- as.data.frame(train_x)
+> test_x  <- as.data.frame(test_x)
+> 
+> train_final <- cbind(train_x,Class=train_data$Class)
+> test_final  <- cbind(test_x,Class=test_data$Class)
+> 
+> train_final$Class <- factor(train_final$Class,levels=c("Bad","Good"))
+> test_final$Class  <- factor(test_final$Class,levels=c("Bad","Good"))
+> 
+> log_model <- glm(Class~.,data=train_final,family=binomial)
+> 
+> log_prob_good <- predict(log_model,newdata=test_final,type="response")
+> log_prob_bad <- 1-log_prob_good
+> 
+> log_pred <- ifelse(log_prob_bad>0.5,"Bad","Good")
+> log_pred <- factor(log_pred,levels=c("Bad","Good"))
+> 
+> log_cm <- confusionMatrix(log_pred,test_final$Class,positive="Bad")
+> print(log_cm)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction Bad Good
+      Bad   27   21
+      Good  33  119
+                                          
+               Accuracy : 0.73            
+                 95% CI : (0.6628, 0.7902)
+    No Information Rate : 0.7             
+    P-Value [Acc > NIR] : 0.1988          
+                                          
+                  Kappa : 0.3182          
+                                          
+ Mcnemar's Test P-Value : 0.1344          
+                                          
+            Sensitivity : 0.4500          
+            Specificity : 0.8500          
+         Pos Pred Value : 0.5625          
+         Neg Pred Value : 0.7829          
+             Prevalence : 0.3000          
+         Detection Rate : 0.1350          
+   Detection Prevalence : 0.2400          
+      Balanced Accuracy : 0.6500          
+                                          
+       'Positive' Class : Bad             
+                                          
+> 
+> log_roc <- roc(response=test_final$Class,predictor=log_prob_bad,levels=c("Good","Bad"))
+Setting direction: controls < cases
+> plot(log_roc)
+> log_auc <- auc(log_roc)
+> 
+> tree_model <- rpart(Class~.,data=train_data,method="class")
+> rpart.plot(tree_model)
+> 
+> tree_pred <- predict(tree_model,newdata=test_data,type="class")
+> tree_cm <- confusionMatrix(tree_pred,test_data$Class,positive="Bad")
+> print(tree_cm)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction Bad Good
+      Bad   26   24
+      Good  34  116
+                                          
+               Accuracy : 0.71            
+                 95% CI : (0.6418, 0.7718)
+    No Information Rate : 0.7             
+    P-Value [Acc > NIR] : 0.4123          
+                                          
+                  Kappa : 0.275           
+                                          
+ Mcnemar's Test P-Value : 0.2373          
+                                          
+            Sensitivity : 0.4333          
+            Specificity : 0.8286          
+         Pos Pred Value : 0.5200          
+         Neg Pred Value : 0.7733          
+             Prevalence : 0.3000          
+         Detection Rate : 0.1300          
+   Detection Prevalence : 0.2500          
+      Balanced Accuracy : 0.6310          
+                                          
+       'Positive' Class : Bad             
+                                          
+> 
+> tree_prob_bad <- predict(tree_model,newdata=test_data,type="prob")[,"Bad"]
+> tree_roc <- roc(response=test_data$Class,predictor=tree_prob_bad,levels=c("Good","Bad"))
+Setting direction: controls < cases
+> plot(tree_roc)
+> tree_auc <- auc(tree_roc)
+> 
+> rf_model <- randomForest(Class~.,data=train_data,ntree=300,importance=TRUE)
+> 
+> rf_pred <- predict(rf_model,newdata=test_data,type="class")
+> rf_cm <- confusionMatrix(rf_pred,test_data$Class,positive="Bad")
+> print(rf_cm)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction Bad Good
+      Bad   19   10
+      Good  41  130
+                                          
+               Accuracy : 0.745           
+                 95% CI : (0.6787, 0.8039)
+    No Information Rate : 0.7             
+    P-Value [Acc > NIR] : 0.09344         
+                                          
+                  Kappa : 0.2877          
+                                          
+ Mcnemar's Test P-Value : 2.659e-05       
+                                          
+            Sensitivity : 0.3167          
+            Specificity : 0.9286          
+         Pos Pred Value : 0.6552          
+         Neg Pred Value : 0.7602          
+             Prevalence : 0.3000          
+         Detection Rate : 0.0950          
+   Detection Prevalence : 0.1450          
+      Balanced Accuracy : 0.6226          
+                                          
+       'Positive' Class : Bad             
+                                          
+> 
+> rf_prob_bad <- predict(rf_model,newdata=test_data,type="prob")[,"Bad"]
+> rf_roc <- roc(response=test_data$Class,predictor=rf_prob_bad,levels=c("Good","Bad"))
+Setting direction: controls < cases
+> plot(rf_roc)
+> rf_auc <- auc(rf_roc)
+> 
+> importance(rf_model)
+                                                Bad        Good
+Duration                                2.733295639 11.87354503
+Amount                                  2.438724017  4.37728326
+InstallmentRatePercentage               0.809797063  5.17453200
+ResidenceDuration                       1.079572214  2.32097949
+Age                                     1.692300340  5.42371340
+NumberExistingCredits                  -1.865497838  6.00937550
+NumberPeopleMaintenance                -0.390802935 -2.59705189
+Telephone                               1.101824908  1.17798353
+ForeignWorker                           3.269839012  1.30917742
+CheckingAccountStatus.lt.0             11.071274539  5.06726767
+CheckingAccountStatus.0.to.200          6.515367184  3.29244235
+CheckingAccountStatus.gt.200           -0.067902876  2.64377306
+CheckingAccountStatus.none             13.217370807 10.50380805
+CreditHistory.NoCredit.AllPaid          3.991937431  5.47394451
+CreditHistory.ThisBank.AllPaid          2.005418359  2.88095896
+CreditHistory.PaidDuly                 -3.157683366  5.40190356
+CreditHistory.Delay                    -0.248480414  2.36216210
+CreditHistory.Critical                  5.229004131  6.09213826
+Purpose.NewCar                          3.566603713  1.57424240
+Purpose.UsedCar                         5.686656406  6.14062752
+Purpose.Furniture.Equipment            -2.352160651  0.51383063
+Purpose.Radio.Television               -1.739723158  1.97843365
+Purpose.DomesticAppliance               1.152496051  0.80485072
+Purpose.Repairs                         0.226545033 -1.30596935
+Purpose.Education                       0.242772475 -1.26246924
+Purpose.Vacation                        0.000000000  0.00000000
+Purpose.Retraining                      1.001670845  0.01298910
+Purpose.Business                        0.252190350 -0.05760360
+Purpose.Other                           0.886015460 -0.69369180
+SavingsAccountBonds.lt.100              5.914276355  1.96280871
+SavingsAccountBonds.100.to.500          0.666342778  0.10482710
+SavingsAccountBonds.500.to.1000         0.301688180 -2.39192795
+SavingsAccountBonds.gt.1000             3.591253781  0.88928817
+SavingsAccountBonds.Unknown             7.892463283  4.61029105
+EmploymentDuration.lt.1                 0.684338908  1.93553724
+EmploymentDuration.1.to.4              -0.680865496 -0.13891316
+EmploymentDuration.4.to.7              -1.723221869 -0.04664162
+EmploymentDuration.gt.7                 4.250029168 -1.98724558
+EmploymentDuration.Unemployed           0.328522531  2.77594258
+Personal.Male.Divorced.Seperated        2.654663662 -0.44887144
+Personal.Female.NotSingle               3.657419339  2.05767276
+Personal.Male.Single                    1.330686895  2.31668614
+Personal.Male.Married.Widowed          -3.027344962  0.46530540
+Personal.Female.Single                  0.000000000  0.00000000
+OtherDebtorsGuarantors.None             1.230360366  4.43950331
+OtherDebtorsGuarantors.CoApplicant      2.368824095  0.60455891
+OtherDebtorsGuarantors.Guarantor        0.051060404  4.79401876
+Property.RealEstate                     2.979025238  4.28096137
+Property.Insurance                      0.007568825  0.33393021
+Property.CarOther                      -2.655800437  1.19193017
+Property.Unknown                       -0.776299863  2.34775131
+OtherInstallmentPlans.Bank             -0.071759363  2.50567816
+OtherInstallmentPlans.Stores           -2.298910761  0.61454133
+OtherInstallmentPlans.None              2.195192668  2.68923746
+Housing.Rent                           -1.287144184  3.22569710
+Housing.Own                             0.138472477  2.85880310
+Housing.ForFree                        -2.402190990  0.70738328
+Job.UnemployedUnskilled                -0.236928242 -0.51953194
+Job.UnskilledResident                   0.410723996  0.99827958
+Job.SkilledEmployee                    -0.204395781  0.78295752
+Job.Management.SelfEmp.HighlyQualified  2.771939717  1.99695739
+                                       MeanDecreaseAccuracy
+Duration                                         11.5366618
+Amount                                            5.3339640
+InstallmentRatePercentage                         4.5759130
+ResidenceDuration                                 2.6398724
+Age                                               5.4085858
+NumberExistingCredits                             4.6413646
+NumberPeopleMaintenance                          -2.4839603
+Telephone                                         1.7628015
+ForeignWorker                                     2.8962570
+CheckingAccountStatus.lt.0                       11.9437922
+CheckingAccountStatus.0.to.200                    7.2833405
+CheckingAccountStatus.gt.200                      2.3573516
+CheckingAccountStatus.none                       15.9849501
+CreditHistory.NoCredit.AllPaid                    6.5977685
+CreditHistory.ThisBank.AllPaid                    3.5172678
+CreditHistory.PaidDuly                            3.2867732
+CreditHistory.Delay                               1.8727580
+CreditHistory.Critical                            8.3632374
+Purpose.NewCar                                    3.3171157
+Purpose.UsedCar                                   8.0201244
+Purpose.Furniture.Equipment                      -1.1027783
+Purpose.Radio.Television                          0.6808215
+Purpose.DomesticAppliance                         1.1763618
+Purpose.Repairs                                  -1.1196484
+Purpose.Education                                -0.9076742
+Purpose.Vacation                                  0.0000000
+Purpose.Retraining                                0.3392314
+Purpose.Business                                  0.1221977
+Purpose.Other                                     0.1484840
+SavingsAccountBonds.lt.100                        5.2991649
+SavingsAccountBonds.100.to.500                    0.5189468
+SavingsAccountBonds.500.to.1000                  -2.0889311
+SavingsAccountBonds.gt.1000                       2.6216729
+SavingsAccountBonds.Unknown                       8.8079976
+EmploymentDuration.lt.1                           1.9536826
+EmploymentDuration.1.to.4                        -0.5598230
+EmploymentDuration.4.to.7                        -1.0163231
+EmploymentDuration.gt.7                           1.1719063
+EmploymentDuration.Unemployed                     2.3787370
+Personal.Male.Divorced.Seperated                  1.3945766
+Personal.Female.NotSingle                         4.0287692
+Personal.Male.Single                              2.6119665
+Personal.Male.Married.Widowed                    -1.4621709
+Personal.Female.Single                            0.0000000
+OtherDebtorsGuarantors.None                       4.3190768
+OtherDebtorsGuarantors.CoApplicant                2.1537165
+OtherDebtorsGuarantors.Guarantor                  4.4496203
+Property.RealEstate                               4.8225122
+Property.Insurance                                0.2360052
+Property.CarOther                                -0.5158492
+Property.Unknown                                  1.3058539
+OtherInstallmentPlans.Bank                        2.1852167
+OtherInstallmentPlans.Stores                     -0.8351203
+OtherInstallmentPlans.None                        3.3632443
+Housing.Rent                                      1.8061478
+Housing.Own                                       2.4159760
+Housing.ForFree                                  -0.7365907
+Job.UnemployedUnskilled                          -0.5490319
+Job.UnskilledResident                             0.8790427
+Job.SkilledEmployee                               0.4575768
+Job.Management.SelfEmp.HighlyQualified            3.1124675
+                                       MeanDecreaseGini
+Duration                                     26.2072180
+Amount                                       31.2264320
+InstallmentRatePercentage                    11.5259282
+ResidenceDuration                            10.0806421
+Age                                          27.0526397
+NumberExistingCredits                         5.7764596
+NumberPeopleMaintenance                       3.3199961
+Telephone                                     5.1059743
+ForeignWorker                                 1.3303824
+CheckingAccountStatus.lt.0                   11.8208512
+CheckingAccountStatus.0.to.200                6.7845191
+CheckingAccountStatus.gt.200                  2.3788919
+CheckingAccountStatus.none                   18.4147559
+CreditHistory.NoCredit.AllPaid                4.2262278
+CreditHistory.ThisBank.AllPaid                3.0601538
+CreditHistory.PaidDuly                        4.3180851
+CreditHistory.Delay                           2.8602853
+CreditHistory.Critical                        7.8263175
+Purpose.NewCar                                6.2092108
+Purpose.UsedCar                               4.2358244
+Purpose.Furniture.Equipment                   4.5535030
+Purpose.Radio.Television                      4.3883463
+Purpose.DomesticAppliance                     0.6125296
+Purpose.Repairs                               1.2840259
+Purpose.Education                             2.7030529
+Purpose.Vacation                              0.0000000
+Purpose.Retraining                            0.1877826
+Purpose.Business                              3.0684871
+Purpose.Other                                 0.6821489
+SavingsAccountBonds.lt.100                    7.2776546
+SavingsAccountBonds.100.to.500                3.0470333
+SavingsAccountBonds.500.to.1000               1.9249289
+SavingsAccountBonds.gt.1000                   1.4802686
+SavingsAccountBonds.Unknown                   5.2042240
+EmploymentDuration.lt.1                       4.2019823
+EmploymentDuration.1.to.4                     4.7072851
+EmploymentDuration.4.to.7                     3.5976693
+EmploymentDuration.gt.7                       3.8495763
+EmploymentDuration.Unemployed                 2.8210339
+Personal.Male.Divorced.Seperated              2.2638098
+Personal.Female.NotSingle                     4.9949923
+Personal.Male.Single                          4.9350939
+Personal.Male.Married.Widowed                 2.6756666
+Personal.Female.Single                        0.0000000
+OtherDebtorsGuarantors.None                   3.1430236
+OtherDebtorsGuarantors.CoApplicant            2.4784336
+OtherDebtorsGuarantors.Guarantor              2.5530959
+Property.RealEstate                           4.7346413
+Property.Insurance                            4.3388718
+Property.CarOther                             4.3280463
+Property.Unknown                              3.0603095
+OtherInstallmentPlans.Bank                    3.5713833
+OtherInstallmentPlans.Stores                  1.9048458
+OtherInstallmentPlans.None                    4.2877387
+Housing.Rent                                  4.0762277
+Housing.Own                                   4.5231072
+Housing.ForFree                               2.0651996
+Job.UnemployedUnskilled                       0.6628340
+Job.UnskilledResident                         3.6135995
+Job.SkilledEmployee                           4.6579847
+Job.Management.SelfEmp.HighlyQualified        4.2801377
+> varImpPlot(rf_model)
+> 
+> results <- data.frame(
++ Model=c("Logistic Regression","Decision Tree","Random Forest"),
++ Accuracy=c(as.numeric(log_cm$overall["Accuracy"]),
++ as.numeric(tree_cm$overall["Accuracy"]),
++ as.numeric(rf_cm$overall["Accuracy"])),
++ Kappa=c(as.numeric(log_cm$overall["Kappa"]),
++ as.numeric(tree_cm$overall["Kappa"]),
++ as.numeric(rf_cm$overall["Kappa"])),
++ Precision=c(as.numeric(log_cm$byClass["Pos Pred Value"]),
++ as.numeric(tree_cm$byClass["Pos Pred Value"]),
++ as.numeric(rf_cm$byClass["Pos Pred Value"])),
++ Recall=c(as.numeric(log_cm$byClass["Sensitivity"]),
++ as.numeric(tree_cm$byClass["Sensitivity"]),
++ as.numeric(rf_cm$byClass["Sensitivity"])),
++ AUC=c(as.numeric(log_auc),as.numeric(tree_auc),as.numeric(rf_auc))
++ )
+> 
+> print(results)
+                Model Accuracy     Kappa Precision    Recall       AUC
+1 Logistic Regression    0.730 0.3181818 0.5625000 0.4500000 0.7296429
+2       Decision Tree    0.710 0.2750000 0.5200000 0.4333333 0.7064286
+3       Random Forest    0.745 0.2877095 0.6551724 0.3166667 0.7564881
+> 
+> results <- results %>% arrange(desc(AUC))
+> print(results)
+                Model Accuracy     Kappa Precision    Recall       AUC
+1       Random Forest    0.745 0.2877095 0.6551724 0.3166667 0.7564881
+2 Logistic Regression    0.730 0.3181818 0.5625000 0.4500000 0.7296429
+3       Decision Tree    0.710 0.2750000 0.5200000 0.4333333 0.7064286
+> 
+> write.csv(results,"model_results.csv",row.names=FALSE)
+> 
+> new_customer <- test_data[1,,drop=FALSE]
+> 
+> new_dummy <- as.data.frame(predict(dummy,newdata=new_customer))
+Warning message:
+In model.frame.default(Terms, newdata, na.action = na.action, xlev = object$lvls) :
+  variable 'Class' is not a factor
+> new_log_good <- predict(log_model,newdata=new_dummy,type="response")
+> new_log_bad <- 1-new_log_good
+> 
+> new_tree_bad <- predict(tree_model,newdata=new_customer,type="prob")[,"Bad"]
+> new_rf_bad <- predict(rf_model,newdata=new_customer,type="prob")[,"Bad"]
+> 
+> new_log_bad
+         1 
+0.02159987 
+> new_tree_bad
+[1] 0.1927711
+> new_rf_bad
+[1] 0.1033333
+> 
